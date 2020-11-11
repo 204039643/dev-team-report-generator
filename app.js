@@ -40,43 +40,87 @@ const promptUser = (questions) => {
     .prompt([
       {
         type: 'input',
-        name: 'name',
+        name: 'mgrName',
         message: 'What is the managers name?'
       },
       {
         type: 'number',
-        name: 'id',
+        name: 'mgrId',
         message: 'What is the managers ID #?'
       },
       {
         type: 'input',
-        name: 'email',
+        name: 'mgrEmail',
         message: 'What is the managers email address?'
       },
       {
         type: 'number',
-        name: 'officeNumber',
+        name: 'mgrOfficeNumber',
         message: 'What is the managers office number?'
+      },
+      {
+        type: 'input',
+        name: 'engName',
+        message: 'What is the engineers name?'
+      },
+      {
+        type: 'number',
+        name: 'engId',
+        message: 'What is the engineers ID #?'
+      },
+      {
+        type: 'input',
+        name: 'engEmail',
+        message: 'What is the engineers email address?'
+      },
+      {
+        type: 'input',
+        name: 'engGithub',
+        message: 'What is the engineers gitHub profile?'
+      },
+      {
+        type: 'input',
+        name: 'intName',
+        message: 'What is the interns name?'
+      },
+      {
+        type: 'number',
+        name: 'intId',
+        message: 'What is the interns ID #?'
+      },
+      {
+        type: 'input',
+        name: 'intEmail',
+        message: 'What is the interns email address?'
+      },
+      {
+        type: 'input',
+        name: 'intSchool',
+        message: 'What school did the intern attend?'
       }
     ])
     .then((response) => {
-      const manager = new Manager(response.name,response.id,response.email,response.officeNumber)
+      const manager = new Manager(response.mgrName,response.mgrId,response.mgrEmail,response.mgrOfficeNumber)
       employees.push(manager)
-      console.log(manager)
+      const engineer = new Engineer(response.engName,response.engId,response.engEmail,response.engGithub)
+      employees.push(engineer)
+      const intern = new Intern(response.intName,response.intId,response.intEmail,response.intSchool)
+      employees.push(intern)
       console.log(employees)
-      // writeHTML()
+      writeHTML()
     })
   }
 
-promptUser()
+//only adding 1 manager, 1 engineer, 1 intern for testing right now
+  promptUser()
 
 //Write new employees object to team.html file
-// function writeHTML() {
-//   fs.writeFile(outputPath, render(employees), null, function (err) {
-//     if (err) {
-//       return console.log(err);
-//     } else {
-//       console.log("Successfully wrote the team!");
-//     }
-//   });
-// };
+function writeHTML() {
+  fs.writeFile(outputPath, render(employees), null, function (err) {
+    if (err) {
+      return console.log(err);
+    } else {
+      console.log("Successfully wrote the team!");
+    }
+  });
+};
