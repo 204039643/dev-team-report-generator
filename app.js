@@ -8,7 +8,9 @@ const fs = require('fs')
 const OUTPUT_DIR = path.resolve(__dirname, 'output')
 const outputPath = path.join(OUTPUT_DIR, 'team.html')
 
-// const render = require('./lib/htmlRenderer')
+const employees = [];
+
+const render = require('./lib/htmlRenderer')
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -33,7 +35,7 @@ const outputPath = path.join(OUTPUT_DIR, 'team.html')
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
 
-const promptUser = () => {
+const promptUser = (questions) => {
  return inquirer
     .prompt([
       {
@@ -58,9 +60,23 @@ const promptUser = () => {
       }
     ])
     .then((response) => {
-      const employeeOne = new Manager(response.name,response.id,response.email,response.officeNumber)
-      console.log(employeeOne)
+      const manager = new Manager(response.name,response.id,response.email,response.officeNumber)
+      employees.push(manager)
+      console.log(manager)
+      console.log(employees)
+      // writeHTML()
     })
   }
 
 promptUser()
+
+//Write new employees object to team.html file
+// function writeHTML() {
+//   fs.writeFile(outputPath, render(employees), null, function (err) {
+//     if (err) {
+//       return console.log(err);
+//     } else {
+//       console.log("Successfully wrote the team!");
+//     }
+//   });
+// };
