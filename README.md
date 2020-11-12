@@ -2,10 +2,12 @@
 
     ![license badge](https://img.shields.io/badge/license-MIT-brightgreen)
 
-    Using inquirer npm module and class generation, build a team report...
+    Node.js app invoked using CLI and then presents a team org. chart using dynamically generated HTML.
 
-    Link to demo video: ![demo video](https://drive.google.com/file/d/19zXqtOdkL1E_6GM3frmmHWfZStOyqjrR/view)
-    
+    Link to demo video: (https://drive.google.com/file/d/19zXqtOdkL1E_6GM3frmmHWfZStOyqjrR/view)
+
+    ![app screenshot](../my-dev-team-generator-screenshot1.png)
+
     - [Installation](#installation)
     - [Usage](#usage)
     - [License](#license)
@@ -15,11 +17,19 @@
     
     ## Installation
     
-    1. clone my repo in Github:
+    1. Fork my repo in Github and clone to your local machine: https://github.com/204039643/dev-team-report-generator
+    2. Initialize npm using 'npm init' command.
+    3. Install both Jest, Inquirer, and Path modules using the command 'npm install inquirer jest path'.
     
     ## Usage
     
-    1. 'node app.js' in CLI to start app.
+    1. Run app using 'node app.js' command in CLI. Ensure you are in the proper directory containing the app.js file.
+    2. Select role to add (Manager, Engineer, Intern).
+    3. Answer questions regarding role.
+    4. If you need to add more roles, select 'y' at the confirm prompt for additional team members.
+    5. Repeat steps 4 - 6 for each team member to add.
+    6. When complete, updated version of 'team.html' will be generated in the output folder.
+    7. Open 'team.html' in your default browser to view.
     
     ## License
     
@@ -47,11 +57,12 @@
     
     ## Contributions
     
-    Font Awesome
-    
+    - Font Awesome
+    - NPM modules: fs, inquirer, path, Jest
+     
     ## Tests
     
-    none
+    Uses Jest npm module for unit testing. See 'test' folder for unit test files. Use 'NPM run test' to execute full test suite.
     
     ## Questions?
     Please reach out to me at either of the following:
