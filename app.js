@@ -8,7 +8,7 @@ const fs = require('fs')
 const OUTPUT_DIR = path.resolve(__dirname, 'output')
 const outputPath = path.join(OUTPUT_DIR, 'team.html')
 
-const employees = [];
+const employees = []
 
 const render = require('./lib/htmlRenderer')
 
@@ -35,92 +35,175 @@ const render = require('./lib/htmlRenderer')
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
 
-const promptUser = (questions) => {
- return inquirer
+//start user input by providing an employee type
+const promptUser = () => {
+  return inquirer
+    .prompt([
+      {
+        type: 'list',
+        name: 'employeeType',
+        message: 'Please select employee type to add below:',
+        choices: ["Manager", "Engineer", "Intern"]
+      }
+    ])
+    .then(response => {
+      if (response.employeeType === 'Manager') {
+        promptManager()
+      } else if (response.employeeType === 'Engineer') {
+        promptEngineer()
+      } else {
+        promptIntern()
+      }
+    })
+}
+
+const promptManager = () => {
+  return inquirer
     .prompt([
       {
         type: 'input',
-        name: 'mgrName',
-        message: 'What is the managers name?'
+        name: 'name',
+        message: 'What is employees name?'
       },
       {
         type: 'number',
-        name: 'mgrId',
-        message: 'What is the managers ID #?'
+        name: 'id',
+        message: 'What is the employees ID #?'
       },
       {
         type: 'input',
-        name: 'mgrEmail',
-        message: 'What is the managers email address?'
-      },
-      {
-        type: 'number',
-        name: 'mgrOfficeNumber',
-        message: 'What is the managers office number?'
+        name: 'email',
+        message: 'What is the employees email address?'
       },
       {
         type: 'input',
-        name: 'engName',
-        message: 'What is the engineers name?'
+        name: 'officeNumber',
+        message: 'What is the employees officeNumber?'
       },
       {
-        type: 'number',
-        name: 'engId',
-        message: 'What is the engineers ID #?'
-      },
-      {
-        type: 'input',
-        name: 'engEmail',
-        message: 'What is the engineers email address?'
-      },
-      {
-        type: 'input',
-        name: 'engGithub',
-        message: 'What is the engineers gitHub profile?'
-      },
-      {
-        type: 'input',
-        name: 'intName',
-        message: 'What is the interns name?'
-      },
-      {
-        type: 'number',
-        name: 'intId',
-        message: 'What is the interns ID #?'
-      },
-      {
-        type: 'input',
-        name: 'intEmail',
-        message: 'What is the interns email address?'
-      },
-      {
-        type: 'input',
-        name: 'intSchool',
-        message: 'What school did the intern attend?'
+        type: 'confirm',
+        name: 'addAnother',
+        message: 'Add another employee?'
       }
     ])
-    .then((response) => {
-      const manager = new Manager(response.mgrName,response.mgrId,response.mgrEmail,response.mgrOfficeNumber)
+    .then(response => {
+      const manager = new Manager(
+        response.name,
+        response.id,
+        response.email,
+        response.officeNumber
+      )
       employees.push(manager)
-      const engineer = new Engineer(response.engName,response.engId,response.engEmail,response.engGithub)
-      employees.push(engineer)
-      const intern = new Intern(response.intName,response.intId,response.intEmail,response.intSchool)
-      employees.push(intern)
-      console.log(employees)
-      writeHTML()
+      if (response.addAnother === true) {
+        promptUser()
+      } else {
+        console.log(employees)
+        writeHTML()
+      }
     })
-  }
+}
 
-//only adding 1 manager, 1 engineer, 1 intern for testing right now
-  promptUser()
+const promptEngineer = () => {
+  return inquirer
+    .prompt([
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is employees name?'
+      },
+      {
+        type: 'number',
+        name: 'id',
+        message: 'What is the employees ID #?'
+      },
+      {
+        type: 'input',
+        name: 'email',
+        message: 'What is the employees email address?'
+      },
+      {
+        type: 'input',
+        name: 'github',
+        message: 'What is the employees gitHub profile?'
+      },
+      {
+        type: 'confirm',
+        name: 'addAnother',
+        message: 'Add another employee?'
+      }
+    ])
+    .then(response => {
+      const engineer = new Engineer(
+        response.name,
+        response.id,
+        response.email,
+        response.github
+      )
+      employees.push(engineer)
+      if (response.addAnother === true) {
+        promptUser()
+      } else {
+        console.log(employees)
+        writeHTML()
+      }
+    })
+}
+
+const promptIntern = () => {
+  return inquirer
+    .prompt([
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is employees name?'
+      },
+      {
+        type: 'number',
+        name: 'id',
+        message: 'What is the employees ID #?'
+      },
+      {
+        type: 'input',
+        name: 'email',
+        message: 'What is the employees email address?'
+      },
+      {
+        type: 'input',
+        name: 'school',
+        message: 'What school did the employee attend?'
+      },
+      {
+        type: 'confirm',
+        name: 'addAnother',
+        message: 'Add another employee?'
+      }
+    ])
+    .then(response => {
+      const intern = new Intern(
+        response.name,
+        response.id,
+        response.email,
+        response.school
+      )
+      employees.push(intern)
+      if (response.addAnother === true) {
+        promptUser()
+      } else {
+        console.log(employees)
+        writeHTML()
+      }
+    })
+}
+
+promptUser()
 
 //Write new employees object to team.html file
-function writeHTML() {
+function writeHTML () {
   fs.writeFile(outputPath, render(employees), null, function (err) {
     if (err) {
-      return console.log(err);
+      return console.log(err)
     } else {
-      console.log("Successfully wrote the team!");
+      console.log('Successfully wrote the team!')
     }
-  });
-};
+  })
+}
