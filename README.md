@@ -6,7 +6,7 @@ Node.js app invoked using CLI and then presents a team org. chart using dynamica
 
 Link to demo video: (https://drive.google.com/file/d/19zXqtOdkL1E_6GM3frmmHWfZStOyqjrR/view)
 
-![app screenshot](../my-dev-team-generator-screenshot1.png)
+![app screenshot](./my-dev-team-generator-screenshot1.png)
 
 - [Installation](#installation)
 - [Usage](#usage)
